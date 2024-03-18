@@ -18,6 +18,11 @@ class Register extends Component
         'password' => 'required|string|min:8',
     ];
 
+    public function updated($property)
+    {
+        $this->validateOnly($property);
+    }
+
     public function register()
     {
         $this->validate();
@@ -26,6 +31,10 @@ class Register extends Component
             'email' => $this->email,
             'password' => Hash::make($this->password),
         ]);
+
+        session()->flash('message', '登録が完了しました。');
+
+        return to_route('livewire-test.index');
     }
 
     public function render()
