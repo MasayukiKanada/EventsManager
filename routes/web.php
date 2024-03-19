@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LivewireTestController;
 use App\Http\Controllers\AlpineTestController;
+use App\Http\Controllers\EventController;
+use Barryvdh\Debugbar\DataCollector\EventCollector;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +34,7 @@ Route::middleware([
 Route::prefix('manager')
 ->middleware('can:manager-higher')
 ->group(function(){
-    Route::get('index', function () {
-        dd('manager');
-    });
+    Route::resource('events', EventCollector::class);
 });
 
 Route::middleware('can:user-higher')
