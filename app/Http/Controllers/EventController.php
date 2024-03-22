@@ -40,7 +40,7 @@ class EventController extends Controller
             $request['event_date'],$request['start_time'],$request['end_time']
         );
 
-        if($check) {
+        if(count($check) > 0) { //他のイベント日時と被っている場合の処理
             session()->flash('status', 'この時間帯は既に他の予約が入っています。他の時間帯を指定して再度登録してください。');
             return view('manager.events.create');
         }
@@ -93,9 +93,9 @@ class EventController extends Controller
      */
     public function update(UpdateEventRequest $request, Event $event)
     {
-        $check = EventService::checkEventDuplicationExceptOwn($event->id, $request['event_date'], $request['start_time'], $request['end_time']);
+        $check = EventService::checkEventDuplication($request['event_date'], $request['start_time'], $request['end_time']);
 
-        if ($check) {
+        if (count($check) > 1) { //自身との重複且つ他のイベント日時と被っている場合の処理
 
             $event = Event::findOrFail($event->id);
 
