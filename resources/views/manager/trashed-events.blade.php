@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            イベント管理
+            削除済みイベント
         </h2>
     </x-slot>
 
@@ -21,11 +21,6 @@
                         </div>
                     @endif
 
-                    <div class="sm:flex justify-end">
-                        <button onclick="location.href='{{ route('events.past') }}'" class="mb-4 mr-4 text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded">過去のイベント一覧</button>
-                        <button onclick="location.href='{{ route('events.create') }}'" class="mb-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">新規登録</button>
-                    </div>
-
                       <div class="px-4 w-full mx-auto overflow-auto">
                         <table class="table-auto w-full text-left whitespace-no-wrap">
                           <thead>
@@ -35,23 +30,32 @@
                               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">終了日時</th>
                               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">予約人数</th>
                               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">定員</th>
-                              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">表示・非表示</th>
+                              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">削除日</th>
+                              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">削除</th>
                             </tr>
                           </thead>
                           <tbody>
-                            @foreach ($events as $event)
+                            @foreach ($trashedEvents as $event)
+                            <form id="delete_{{$event->id}}" method="post" action="{{ route('trashed-events.destroy', ['event' => $event->id])}}">
+                            @csrf
                             <tr>
                                 <td class="px-4 py-3 text-blue-500"><a href="{{ route('events.show', ['event' => $event->id]) }}">{{ $event->name }}</a></td>
                                 <td class="px-4 py-3">{{ $event->start_date }}</td>
                                 <td class="px-4 py-3">{{ $event->end_date }}</td>
                                 <td class="px-4 py-3">後ほど</td>
                                 <td class="px-4 py-3">{{ $event->max_people }}</td>
-                                <td class="px-4 py-3">{{ $event->is_visible }}</td>
+                                <td class="px-4 py-3">{{ $event->deleted_at->diffForHumans() }}</td>
+                                <td class="px-4 py-3 text-center">
+                                    <a href="#" data-id="{{ $event->id }}" onclick="deletePost(this)"
+                                   class="text-white bg-red-400 border-0 p-2 focus:outline-none
+                                   hover:bg-red-500 rounded">完全に削除する</a>
+                                </td>
                             </tr>
+                            </form>
                             @endforeach
                           </tbody>
                         </table>
-                        {{ $events->links() }}
+                        {{ $trashedEvents->links() }}
                       </div>
                       <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
 
@@ -61,4 +65,12 @@
             </div>
         </div>
     </div>
+    <script>
+        function deletePost(e) {
+            'use strict';
+            if (confirm('本当に削除してもいいですか?')) {
+                document.getElementById('delete_' + e.dataset.id).submit();
+            }
+        }
+    </script>
 </x-app-layout>

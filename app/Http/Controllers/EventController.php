@@ -19,6 +19,7 @@ class EventController extends Controller
         $today = Carbon::today();
 
         $events = DB::table('events')
+        ->whereNull('deleted_at')
         ->whereDate('start_date', '>=', $today)
         ->orderBy('start_date', 'asc')
         ->paginate(10);
@@ -137,6 +138,7 @@ class EventController extends Controller
     {
         $today = Carbon::today();
         $events = DB::table('events')
+        ->whereNull('deleted_at')
         ->whereDate('start_date', '<', $today)
         ->orderBy('start_date', 'desc')
         ->paginate(10);
@@ -149,6 +151,22 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        Event::findOrFail($event->id)->delete();
+
+        session()->flash('alert', 'イベントを削除しました。');
+
+        return to_route('events.index');
+    }
+
+    public function trashedEventIndex()
+    {
+        $trashedEvents = Event::onlyTrashed()->paginate(10);
+        return view('manager.trashed-events', compact('trashedEvents'));
+    }
+
+    public function trashedEventDestroy($id)
+    {
+        Event::onlyTrashed()->findOrFail($id)->forceDelete();
+        return redirect()->route('trashed-events.index');
     }
 }

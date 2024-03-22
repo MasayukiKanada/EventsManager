@@ -38,6 +38,13 @@ Route::prefix('manager')
     Route::resource('events', EventController::class);
 });
 
+Route::prefix('trashed-events')
+->middleware('can:manager-higher')
+->group(function(){
+    Route::get('index', [EventController::class, 'trashedEventIndex'])->name('trashed-events.index');
+    Route::post('destroy/{event}', [EventController::class, 'trashedEventDestroy'])->name('trashed-events.destroy');
+});
+
 Route::middleware('can:user-higher')
 ->group(function(){
     Route::get('index', function () {

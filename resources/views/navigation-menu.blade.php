@@ -19,6 +19,9 @@
                     <x-nav-link href="{{ route('events.index') }}" :active="request()->routeIs('events.index')">
                         イベント管理
                     </x-nav-link>
+                    <x-nav-link href="{{ route('trashed-events.index') }}" :active="request()->routeIs('trashed-events.index')">
+                        削除済みイベント
+                    </x-nav-link>
                     @endcan
                 </div>
             </div>
@@ -150,6 +153,9 @@
             @can('manager-higher')
             <x-responsive-nav-link href="{{ route('events.index') }}" :active="request()->routeIs('events.index')">
                 イベント管理
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('trashed-events.index') }}" :active="request()->routeIs('trashed-events.index')">
+                削除済みイベント
             </x-responsive-nav-link>
             @endcan
         </div>
