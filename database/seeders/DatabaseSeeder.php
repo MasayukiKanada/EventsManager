@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Event;
+use App\Models\Reservation;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,10 +21,11 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        Event::factory(100)->create();
+
         $this->call([
             UserSeeder::class,
+            ReservationSeeder::class,
         ]);
-
-        Event::factory(100)->create();
     }
 }
