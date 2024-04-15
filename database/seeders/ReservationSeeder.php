@@ -16,15 +16,23 @@ class ReservationSeeder extends Seeder
         DB::table('reservations')->insert([[
             'user_id' => 1,
             'event_id' => 1,
-            'number_of_people' => 5
+            'number_of_people' => 5,
+            'canceled_date' => null
             ],[
             'user_id' => 2,
             'event_id' => 1,
-            'number_of_people' => 3
+            'number_of_people' => 3,
+            'canceled_date' => null
             ],[
             'user_id' => 1,
             'event_id' => 2,
-            'number_of_people' => 2
+            'number_of_people' => 2,
+            'canceled_date' => null
+            ],[
+            'user_id' => 2,
+            'event_id' => 2,
+            'number_of_people' => 2,
+            'canceled_date' => '2024-04-15 00:00:00'
             ]
         ]);
     }
