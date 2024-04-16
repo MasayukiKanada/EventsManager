@@ -9,7 +9,7 @@ flatpickr("#event_date", {
 
 flatpickr("#calender", {
     "locale": Japanese,
-    minDate: "today",
+    //minDate: "today",
     maxDate: new Date().fp_incr(30) // 30 days from now
 });
 
