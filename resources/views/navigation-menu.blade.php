@@ -4,7 +4,7 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
+                <div class="w-16 shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
                         <x-application-mark class="block h-9 w-auto" />
                     </a>
@@ -15,6 +15,14 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @can('manager-higher')
+                    <x-nav-link href="{{ route('events.index') }}" :active="request()->routeIs('events.index')">
+                        イベント管理
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('trashed-events.index') }}" :active="request()->routeIs('trashed-events.index')">
+                        削除済みイベント
+                    </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
@@ -142,6 +150,14 @@
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @can('manager-higher')
+            <x-responsive-nav-link href="{{ route('events.index') }}" :active="request()->routeIs('events.index')">
+                イベント管理
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('trashed-events.index') }}" :active="request()->routeIs('trashed-events.index')">
+                削除済みイベント
+            </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->
