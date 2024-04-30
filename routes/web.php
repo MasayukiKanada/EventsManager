@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LivewireTestController;
 use App\Http\Controllers\AlpineTestController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ReservationController;
 use Barryvdh\Debugbar\DataCollector\EventCollector;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,15 +23,15 @@ Route::get('/', function () {
     return view('calender');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified',
+// ])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
+// });
 
 Route::prefix('manager')
 ->middleware('can:manager-higher')
@@ -47,9 +49,7 @@ Route::prefix('trashed-events')
 
 Route::middleware('can:user-higher')
 ->group(function(){
-    Route::get('index', function () {
-        dd('user');
-    });
+    Route::get('/dashboard', [ReservationController::class, 'dashboard'])->name('dashboard');
 });
 
 Route::controller(LivewireTestController::class)
