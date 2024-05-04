@@ -55,17 +55,23 @@
                             </div>
 
                             <div class="mt-4">
+                            @if ($reservablePeople <= 0)
+                                <span class="text-red-500 text-md">このイベントは満員です。</span>
+                            @else
                                 <x-label for="reserved_people" value="予約人数" />
                                 <select name="reserved_people">
                                     @for($i = 1; $i <= $reservablePeople; $i++)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
+                            @endif
                             </div>
                             <input type="hidden" name="id" value="{{ $event->id }}">
-                            <x-button class="ms-4 mt-4">
-                               予約する
-                            </x-button>
+                            @if ($reservablePeople > 0)
+                                <x-button class="ms-4 mt-4">
+                                予約する
+                                </x-button>
+                            @endif
                         </div>
                     </form>
 
