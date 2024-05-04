@@ -19,8 +19,8 @@
                         </div>
                     @endif
 
-                    <form method="GET" action="{{ route('events.edit', ['event' => $event->id]) }}">
-
+                    <form method="post" action="{{ route('events.reserve', ['id' => $event->id]) }}">
+                        @csrf
                         <div>
                             <x-label for="event_name" value="イベント名" />
                             {{ $event->name }}
@@ -62,7 +62,7 @@
                                     @endfor
                                 </select>
                             </div>
-
+                            <input type="hidden" name="id" value="{{ $event->id }}">
                             <x-button class="ms-4 mt-4">
                                予約する
                             </x-button>

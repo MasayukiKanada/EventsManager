@@ -8,6 +8,15 @@
     <div class="py-12">
         <div class="event-calender mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                @if (session('status'))
+                    <div class="mb-4 font-medium text-sm text-green-600">
+                        {{ session('status') }}
+                    </div>
+                @elseif(session('alert'))
+                    <div class="mb-4 font-medium text-sm text-white bg-red-600">
+                        {{ session('alert') }}
+                    </div>
+                @endif
                 @livewire('calender')
             </div>
         </div>
