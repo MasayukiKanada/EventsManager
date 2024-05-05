@@ -5,6 +5,7 @@ use App\Http\Controllers\LivewireTestController;
 use App\Http\Controllers\AlpineTestController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\MyPageController;
 use Barryvdh\Debugbar\DataCollector\EventCollector;
 
 
@@ -50,6 +51,7 @@ Route::prefix('trashed-events')
 Route::middleware('can:user-higher')
 ->group(function(){
     Route::get('/dashboard', [ReservationController::class, 'dashboard'])->name('dashboard');
+    Route::get('/mypage', [MyPageController::class, 'index'])->name('mypage.index');
     Route::get('/{id}', [ReservationController::class,'detail'])->name('events.detail');
     Route::post('/{id}', [ReservationController::class,'reserve'])->name('events.reserve');
 });
