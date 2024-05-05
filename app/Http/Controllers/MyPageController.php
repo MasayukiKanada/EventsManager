@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\Reservation;
 use App\Services\MyPageService;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class MyPageController extends Controller
 {
@@ -26,8 +27,23 @@ class MyPageController extends Controller
         $event = Event::findOrFail($id);
         $reservation = Reservation::where('user_id', '=', Auth::id() )
         ->where('event_id', '=', $id)
+        ->latest()
         ->first();
 
         return view('mypage/show', compact('event', 'reservation'));
+    }
+
+    public function cancel($id)
+    {
+       $reservation = Reservation::where('user_id', '=', Auth::id())
+       ->where('event_id', '=', $id)
+       ->latest()
+       ->first();
+
+       $reservation->canceled_date = Carbon::now()->format('Y-m-d H:i:s');
+       $reservation->save();
+
+       session()->flash('status', 'キャンセルできました。');
+       return to_route('dashboard');
     }
 }
